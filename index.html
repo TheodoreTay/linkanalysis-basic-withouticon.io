@@ -1,0 +1,157 @@
+<html>
+
+  <head>
+      <title>Link Analysis Demo - Basic Scenario</title>
+
+      <style>
+          body {
+              color: #FFFFFF;
+              font: 12pt arial;
+              background-color: #6F6F6F;
+          }
+          #mynetwork {
+              width: 1190px;
+              height: 400px;
+              border: 15px solid #444444;
+              background-color: #FFFFFF;
+          }
+      </style>
+
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.js"></script>
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.css" rel="stylesheet" type="text/css">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"  type='text/css'>
+  </head>
+
+  <body>
+    <br>
+    <h3><u>Link Analysis Demo - Basic Scenario</u></h3>
+    <p>Description: The accused from IP1001, "Christian Tan", buys drugs from "Mike Chang".<br>In turn, there is a link between Mike Chang & IP1002-1003 based on his phone number.</p>
+    <div id="mynetwork">
+      <div class="vis-network" tabindex="900" style="position: relative; overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); width: 100%; height: 100%;">
+        <canvas width="1104" height="1104" style="position: relative; touch-action: none; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); width: 100%; height: 100%;">
+        </canvas>
+      </div>
+    </div>
+    <script type="text/javascript">
+        var nodes = [
+            {id: 0, label: "IP1001", group: 'ip_own',title:"IP Status: New<br>Investigating Officer: Sgt Graydon Soon<br>Primary Case Classification: xxxxx<br>Secondary Case Classification: xxxxx"},
+            {id: 1, label: "Accused:\nChristian Tan", group: 'ip_own', shape:'icon',title:"Person ID: S7592820k<br>Gender: M<br>Race: Chinese<br>Nationality: Singaporean<br>Arrest Date: 04-06-2015"},
+            {id: 2, label: "Exhibit Phone:\n85503291", group: 'exhibit_own',title:"Exhibit ID: EXX11<br>Seized Date: 04-06-2015<br>Person ID: s7592820k"},
+            {id: 3, label: "Exhibit Vehicle:\nSBC2288X", group: 'exhibit_own',title:"Exhibit ID: EXX10<br>Seized Date: 04-06-2015<br>Person ID: s7592820k"},
+            {id: 4, label: "Drug Seller:\nMike Chang", group: 'aa_drugseller',title:"NRIC: S8549303G<br>Interviewee ID: S7592820k<br>Node ID: 1e327492d392g<br>Seller sentence: ‘Previously, I bought from another supplier. [drug_seller:None|from another supplier] <br>10 I wished to say that I do not any drugs at home. I carry all the drugs with me as I don't really go back<br> home. I always stay outside. I don't want to get my family involved. 11 As for my absences from urine test, I wished<br> to say that I have only 8 months of medical certificates’"},
+            {id: 5, label: "Phone Number:\n86029323", group: 'aa_drugseller'},
+            {id: 6, label: "IP1002", group: 'aa_phonenumber',title:"IP Status: Open<br>Investigating Officer: Sgt Chew Ming<br>Primary Case Classification: xxxxx<br>Secondary Case Classification: xxxxx"},
+            {id: 7, label: "Phone Number:\n86029323", group: 'aa_phonenumber', title:"Ownership: Mike Chang<br>Ownership Type: Father<br>Node ID: 5e934534g12<br>Interviewee ID: S5582042g<br>Source Sentence: He told me that he might have some urgent family matter ... <br>I then saw the plastic bags containing the orange, 'Tai Sun' plastic bag, some potato chips and nuts ..."},
+            {id: 8, label: "IP1003", group: 'fort',title:"IP Status: Pending Reopen<br>Investigating Officer: Sgt Thomas Ong<br>Primary Case Classification: xxxxx<br>Secondary Case Classification: xxxxx"},
+            {id: 9, label: "Phone Number:\n86029323", group: 'fort', title:"Phone Number Category: Call log<br>Exhibit Phone no: 94037853"},
+        ];
+        var edges = [
+            {from: 0, to: 1},
+            {from: 0, to: 2},
+            {from: 0, to: 3},
+            {from: 1, to: 4},
+            {from: 4, to: 5},
+            {from: 5, to: 7},
+            {from: 5, to: 9},
+            {from: 7, to: 6},
+            {from: 9, to: 8},
+        ];
+
+        // create a network
+        var container = document.getElementById('mynetwork');
+
+        var data = {
+            nodes: nodes,
+            edges: edges
+        };
+
+        var options = {
+            edges: {
+                width: 4
+            },
+            groups: {
+                ip_own: {
+                  shape: 'dot',
+                  size: 20,
+                  color: {background:'white',border:'black'},
+                  font: {
+                      size: 12,
+                      color: '#222222',
+                      bold: {
+                        face:'futura',
+                        mod:'bold'
+                      },
+                  },
+                  borderWidth: 4
+                },
+                exhibit_own: {
+                  shape: 'dot',
+                  size: 20,
+                  color: {background:'white',border:'black'},
+                  font: {
+                      size: 12,
+                      color: '#222222',
+                      bold: {
+                        face:'futura',
+                        mod:'bold'
+                      },
+                  },
+                  borderWidth: 4
+                },
+                aa_drugseller: {
+                  borderWidth: 4,
+                  shape: 'dot',
+                  size: 20,
+                  color: {background:'white',border:'#3352FF'},
+                  font: {
+                      size: 12,
+                      color: '#222222',
+                      bold: {
+                        face:'futura',
+                        mod:'bold'
+                      },
+                  },
+                },
+                aa_phonenumber: {
+                  borderWidth: 4,
+                  shape: 'dot',
+                  size: 20,
+                  color: {background:'white',border:'#1BD8FA'},
+                  font: {
+                      size: 12,
+                      color: '#222222',
+                      bold: {
+                        face:'futura',
+                        mod:'bold'
+                      },
+                  },
+                },
+                fort: {
+                  shape: 'dot',
+                  size: 20,
+                  color: {background:'white',border:'#FA361B'},
+                  font: {
+                      size: 12,
+                      color: '#222222',
+                      bold: {
+                        face:'futura',
+                        mod:'bold'
+                      },
+                  },
+                  borderWidth: 4
+                },
+            },
+            layout: {
+              randomSeed:500,
+              hierarchical: {enabled:true,direction: 'LR'}
+            },
+        };
+
+        var network = new vis.Network(container, data, options);
+
+    </script>
+    <object id="__symantecPKIClientMessenger" data-supports-flavor-configuration="true" data-extension-version="0.5.0.109" style="display: none;"></object>
+    <span id="__symantecPKIClientDetector" style="display: none;">__PRESENT</span>
+  </body>
+
+</html>
